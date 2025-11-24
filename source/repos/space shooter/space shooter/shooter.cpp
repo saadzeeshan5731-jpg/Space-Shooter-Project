@@ -1,6 +1,7 @@
 ﻿#include "raylib.h"
 #include <iostream>
-#include <cstdlib>            
+#include <cstdlib>  
+#include<fstream>
  
 
 using namespace std;
@@ -48,11 +49,14 @@ int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
 
+
+
 int pos_x = width_sc / 2;
 int pos_y = height_sc - 60;
 int width = 45;
 int height = 20;
 int playerSpeed = 8;
+
 
 //all game functions
 void Shoot(int playerX, int playerY, int pWidth);         //function prototypes
@@ -114,15 +118,15 @@ void InitializeEnemies() {
 
         if (i % 3 == 0) {
             enemies[i].color = RED;
-			enemies[i].scoreValue = 30; //red enemies have more score
+			enemies[i].scoreValue = 60; //red enemies have more score
         }
         else if (i % 3 == 1) {
             enemies[i].color = BLUE;
-			enemies[i].scoreValue = 20;            //blue enemies have medium score
+			enemies[i].scoreValue = 50;            //blue enemies have medium score
         }
         else {
             enemies[i].color = GREEN;
-			enemies[i].scoreValue = 10;        //green enemies have less score
+			enemies[i].scoreValue = 30;        //green enemies have less score
         }
     }
 }
@@ -202,6 +206,7 @@ void UpdateBossBullets() {
 //main loop GUI
 int main() {
     InitWindow(width_sc, height_sc, "SPACE SHOOTER!");
+   
 	InitAudioDevice();
 
     SetTargetFPS(60);
@@ -212,6 +217,7 @@ int main() {
     Texture2D enemy3Texture = LoadTexture("assets/green.png");
 	Texture2D bossTexture = LoadTexture("assets/boss.png");
     PlayMusicStream(backgroundMusic);
+    Sound Gunshot=LoadSound("assets/gunshot.wav");
     InitializeEnemies();
     srand(time(0));
 
@@ -219,16 +225,20 @@ int main() {
         float x = GetFrameTime();  //frame rate
         UpdateMusicStream(backgroundMusic);
         
+        
         if (gState == 0) {
             if (IsKeyPressed(KEY_SPACE))
             {
                 gState = 1;
+                PlaySound(Gunshot);
             }
         }
 
         if (lives <= 0)
         {
+         
             gState = 2;
+           
         }
         if (IsKeyPressed(KEY_R) && (gState == 1 || gState == 2 || gState == 3)) {
             ResetGame();
@@ -296,7 +306,7 @@ int main() {
                     }
                 }
 
-				if (score >= current_level * 300) {                         //level up condition
+				if (score >= current_level * 500) {                         //level up condition
                     current_level++;
                     if (current_level == 3) {
 						                      //boss level
@@ -337,18 +347,20 @@ int main() {
         DrawText("SPACE SHOOTER", 10, 15, 20, RAYWHITE);
 		DrawText("LEVEL", 250, 15, 20, LIGHTGRAY);                             //header information
         DrawText(TextFormat("%i", current_level), 330, 15, 20, YELLOW);
-        DrawText("SCORE", 500, 15, 20, LIGHTGRAY);
-        DrawText(TextFormat("%05i", score), 580, 15, 20, WHITE);
-        DrawText("LIVES", 820, 15, 20, LIGHTGRAY);
+        DrawText("SCORE", 420, 15, 20, LIGHTGRAY);
+        DrawText(TextFormat("%05i", score), 500, 15, 20, WHITE);
+       
+        DrawText("LIVES", 830, 15, 20, LIGHTGRAY);
         DrawText(TextFormat("%i", lives), 900, 15, 20, RED);
 
         if (gState == 0) {
-            DrawText("INSTRUCTIONS", width_sc / 2 - 200, 150, 40, RED);
-            DrawText("Use A/D to move", 300, 300, 20, GREEN);
-            DrawText("Press SPACE to Fire", 300, 330, 20, GREEN);
-            DrawText("Hit Debris for Score", 300, 360, 20, GREEN);
-            DrawText("Press R to Restart", 300, 390, 20, GREEN);
-            DrawText("Press Space to Start", 300, 420, 20, GREEN);
+            DrawText("THE CHAOTIC TRIO", width_sc / 2 - 200, 110, 40, WHITE);
+            DrawText("INSTRUCTIONS", width_sc / 2 - 200, 160, 40, RED);
+            DrawText("Use A/D to move", 300, 330, 20, GREEN);
+            DrawText("Press SPACE to Fire", 300, 360, 20, GREEN);
+            DrawText("Hit Debris for Score", 300, 390, 20, GREEN);
+            DrawText("Press R to Restart", 300, 420, 20, GREEN);
+            DrawText("Press Space to Start", 300, 450, 20, GREEN);
 
         }
 
@@ -422,7 +434,10 @@ int main() {
     UnloadTexture(enemy3Texture);
 	UnloadTexture(bossTexture);
     StopMusicStream(backgroundMusic);
+    UnloadSound(Gunshot);
     UnloadMusicStream(backgroundMusic);
+   
+   
 
     CloseAudioDevice();
 
