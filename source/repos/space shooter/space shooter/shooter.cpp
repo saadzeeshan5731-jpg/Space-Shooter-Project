@@ -48,7 +48,34 @@ int score = 0;
 int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
+int highScore = 0;
+void SaveScore(int highScore) {
+    if (score > highScore)
+    {
+        highScore = score;
 
+        ofstream outFile("highScore.txt");
+        if (outFile.is_open()) {
+            outFile << highScore << endl;
+
+            outFile.close();
+        }
+    }
+   
+}
+void LoadScore() {
+    ifstream inFile("highScore.txt");
+    if (inFile.is_open()) {
+        if (!(inFile >> highScore))
+        {
+            highScore = 0;
+        }
+        inFile.close();
+    }
+    else
+        highScore = 0;
+   
+}
 
 
 int pos_x = width_sc / 2;
@@ -118,15 +145,15 @@ void InitializeEnemies() {
 
         if (i % 3 == 0) {
             enemies[i].color = RED;
-			enemies[i].scoreValue = 60; //red enemies have more score
+			enemies[i].scoreValue = 50; //red enemies have more score
         }
         else if (i % 3 == 1) {
             enemies[i].color = BLUE;
-			enemies[i].scoreValue = 50;            //blue enemies have medium score
+			enemies[i].scoreValue = 40;            //blue enemies have medium score
         }
         else {
             enemies[i].color = GREEN;
-			enemies[i].scoreValue = 30;        //green enemies have less score
+			enemies[i].scoreValue = 20;        //green enemies have less score
         }
     }
 }
@@ -206,7 +233,7 @@ void UpdateBossBullets() {
 //main loop GUI
 int main() {
     InitWindow(width_sc, height_sc, "SPACE SHOOTER!");
-   
+    LoadScore();
 	InitAudioDevice();
 
     SetTargetFPS(60);
@@ -236,7 +263,10 @@ int main() {
 
         if (lives <= 0)
         {
-         
+            if (gState != 2)
+            {
+                SaveScore(highScore);
+           }
             gState = 2;
            
         }
@@ -280,7 +310,7 @@ int main() {
 
             if (current_level < 3) {
 				for (int i = 0; i < Ecount; i++) {                             //update enemies
-					enemies[i].rect.y += enemies[i].speed * x * 55;              //enemy speed
+					enemies[i].rect.y += enemies[i].speed * x * 60;              //enemy speed
 
                     if (enemies[i].rect.y > height_sc) {
                         lives--;
@@ -306,7 +336,7 @@ int main() {
                     }
                 }
 
-				if (score >= current_level * 500) {                         //level up condition
+				if (score >= current_level * 800) {                         //level up condition
                     current_level++;
                     if (current_level == 3) {
 						                      //boss level
@@ -349,7 +379,8 @@ int main() {
         DrawText(TextFormat("%i", current_level), 330, 15, 20, YELLOW);
         DrawText("SCORE", 420, 15, 20, LIGHTGRAY);
         DrawText(TextFormat("%05i", score), 500, 15, 20, WHITE);
-       
+        DrawText("HIGH SCORE", 600, 15, 20, LIGHTGRAY);
+        DrawText(TextFormat("%05i", highScore), 740, 15, 20, LIGHTGRAY);
         DrawText("LIVES", 830, 15, 20, LIGHTGRAY);
         DrawText(TextFormat("%i", lives), 900, 15, 20, RED);
 
@@ -436,7 +467,7 @@ int main() {
     StopMusicStream(backgroundMusic);
     UnloadSound(Gunshot);
     UnloadMusicStream(backgroundMusic);
-   
+    SaveScore(highScore);
    
 
     CloseAudioDevice();
