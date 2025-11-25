@@ -49,9 +49,9 @@ int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
 int highScore = 0;
-const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; 
+const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; // path of the high score file specified
 void SaveScore() {
-    if (score > highScore)
+    if (score > highScore)                                                                              // function to save the high score
     {
         highScore = score;
 
@@ -64,7 +64,7 @@ void SaveScore() {
     }
    
 }
-void LoadScore() {
+void LoadScore() {                                                               // function to load the high score after the game 
     ifstream inFile("HighScore");
     if (inFile.is_open()) {
         if (!(inFile >> highScore))
@@ -134,7 +134,7 @@ void InitializeEnemies() {
 
         enemies[i].rect.width = 30;                     //enemies dimensions
         enemies[i].rect.height = 30;
-		enemies[i].speed = 0.5 + (current_level * 0.5);    //enemy speed increases with level increment
+		enemies[i].speed = 0.75 + (current_level * 0.5);    //enemy speed increases with level increment
         enemies[i].active = true;
 
 		enemies[i].rect.x = rand() % (width_sc - (int)enemies[i].rect.width + 1);     //random x position on screen
@@ -455,7 +455,7 @@ int main() {
         }
 
         if (gState == 3) {
-			DrawText("YOU WIN!", width_sc / 2 - 150, height_sc / 2 - 50, 60, GREEN);//win conditio
+			DrawText("YOU WIN!", width_sc / 2 - 150, height_sc / 2 - 50, 60, GREEN);//win condition
         }
 
         EndDrawing();
