@@ -248,7 +248,7 @@ int main() {
     InitializeEnemies();
     srand(time(0));
 
-    while (!WindowShouldClose()) {
+    while (WindowShouldClose()!=true) {
         float x = GetFrameTime();  //frame rate
         UpdateMusicStream(backgroundMusic);
         
