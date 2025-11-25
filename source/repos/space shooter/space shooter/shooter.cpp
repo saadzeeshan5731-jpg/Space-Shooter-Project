@@ -49,12 +49,13 @@ int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
 int highScore = 0;
-void SaveScore(int highScore) {
+const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; 
+void SaveScore() {
     if (score > highScore)
     {
         highScore = score;
 
-        ofstream outFile("highScore.txt");
+        ofstream outFile("HighScore");
         if (outFile.is_open()) {
             outFile << highScore << endl;
 
@@ -64,7 +65,7 @@ void SaveScore(int highScore) {
    
 }
 void LoadScore() {
-    ifstream inFile("highScore.txt");
+    ifstream inFile("HighScore");
     if (inFile.is_open()) {
         if (!(inFile >> highScore))
         {
@@ -265,7 +266,7 @@ int main() {
         {
             if (gState != 2)
             {
-                SaveScore(highScore);
+                SaveScore();
            }
             gState = 2;
            
@@ -467,7 +468,7 @@ int main() {
     StopMusicStream(backgroundMusic);
     UnloadSound(Gunshot);
     UnloadMusicStream(backgroundMusic);
-    SaveScore(highScore);
+    SaveScore();
    
 
     CloseAudioDevice();
