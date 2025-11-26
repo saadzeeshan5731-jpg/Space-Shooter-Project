@@ -49,25 +49,23 @@ int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
 int highScore = 0;
-const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; // path of the high score file specified
+const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; //path of the highscore file
 void SaveScore() {
-    if (score > highScore)                                                                              // function to save the high score
+    if (score > highScore)
     {
         highScore = score;
-
-        ofstream outFile("HighScore");
+        ofstream outFile(HighScore);                                                        //output highscore file
         if (outFile.is_open()) {
             outFile << highScore << endl;
-
             outFile.close();
         }
     }
-   
 }
-void LoadScore() {                                                               // function to load the high score after the game 
-    ifstream inFile("HighScore");
+
+void LoadScore() {
+    ifstream inFile(HighScore);
     if (inFile.is_open()) {
-        if (!(inFile >> highScore))
+        if (!(inFile >> highScore))                                                           //input highscore file to load
         {
             highScore = 0;
         }
@@ -75,12 +73,11 @@ void LoadScore() {                                                              
     }
     else
         highScore = 0;
-   
 }
 
 
 int pos_x = width_sc / 2;
-int pos_y = height_sc - 60;
+int pos_y = height_sc - 60;                           //player credentials
 int width = 45;
 int height = 20;
 int playerSpeed = 8;
