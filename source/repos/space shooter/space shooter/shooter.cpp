@@ -49,19 +49,7 @@ int lives = 3;                                          //player variables
 int current_level = 1;
 int gState = 0;
 int highScore = 0;
-const char* HighScore ="C:\\Users\\lenovo\\source\\repos\\space shooter\\space shooter\\highScore.txt"; //path of the highscore file
-void SaveScore() {
-    if (score > highScore)
-    {
-        highScore = score;
-        ofstream outFile(HighScore);                                                        //output highscore file
-        if (outFile.is_open()) {
-            outFile << highScore << endl;
-            outFile.close();
-        }
-    }
-}
-
+const char* HighScore ="highScore.txt"; //path of the highscore file
 void LoadScore() {
     ifstream inFile(HighScore);
     if (inFile.is_open()) {
@@ -74,6 +62,20 @@ void LoadScore() {
     else
         highScore = 0;
 }
+void SaveScore() {
+	
+    if (score > highScore)
+    {
+        highScore = score;
+        ofstream outFile(HighScore);                                                        //output highscore file
+        if (outFile.is_open()) {
+            outFile << highScore << endl;
+            outFile.close();
+        }
+    }
+}
+
+
 
 
 int pos_x = width_sc / 2;
@@ -84,6 +86,8 @@ int playerSpeed = 8;
 
 
 //all game functions
+void SaveScore();    //save high score to file
+void LoadScore();    //load high score from file
 void Shoot(int playerX, int playerY, int pWidth);         //function prototypes
 void UpdateBullets();                                      //update bullets
 void ResetGame();                                         //reset game variables
@@ -131,7 +135,7 @@ void InitializeEnemies() {
 
         enemies[i].rect.width = 30;                     //enemies dimensions
         enemies[i].rect.height = 30;
-		enemies[i].speed = 0.75 + (current_level * 0.5);    //enemy speed increases with level increment
+		enemies[i].speed = 0.5 + (current_level * 0.5);    //enemy speed increases with level increment
         enemies[i].active = true;
 
 		enemies[i].rect.x = rand() % (width_sc - (int)enemies[i].rect.width + 1);     //random x position on screen
@@ -334,7 +338,7 @@ int main() {
                     }
                 }
 
-				if (score >= current_level * 800) {                         //level up condition
+				if (score >= current_level * 600) {                         //level up condition
                     current_level++;
                     if (current_level == 3) {
 						                      //boss level
@@ -360,6 +364,10 @@ int main() {
                 }
 
                 if (bossHP <= 0) {
+                    if (gState != 3)
+                    {
+						SaveScore();
+                    }
                     gState = 3; // WIN!
                 }
             }
@@ -465,7 +473,7 @@ int main() {
     StopMusicStream(backgroundMusic);
     UnloadSound(Gunshot);
     UnloadMusicStream(backgroundMusic);
-    SaveScore();
+  
    
 
     CloseAudioDevice();
