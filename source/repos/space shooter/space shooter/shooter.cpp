@@ -148,15 +148,15 @@ void InitializeEnemies() {
 
         if (i % 3 == 0) {
             enemies[i].color = RED;
-			enemies[i].scoreValue = 50; //red enemies have more score
+			enemies[i].scoreValue = 100; //red enemies have more score
         }
         else if (i % 3 == 1) {
             enemies[i].color = BLUE;
-			enemies[i].scoreValue = 40;            //blue enemies have medium score
+			enemies[i].scoreValue = 60;            //blue enemies have medium score
         }
         else {
             enemies[i].color = GREEN;
-			enemies[i].scoreValue = 20;        //green enemies have less score
+			enemies[i].scoreValue = 40;        //green enemies have less score
         }
     }
 }
