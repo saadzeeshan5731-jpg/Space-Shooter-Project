@@ -169,7 +169,7 @@ void ResetGame() {
     current_level = 1;
     pos_x = width_sc / 2;
     pos_y = height_sc - 60;
-
+	//player position reset
 	bullet_idx = 0;                                           //reset bullet index
 
     for (int i = 0; i < Bmax; i++)
