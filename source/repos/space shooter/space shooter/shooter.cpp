@@ -339,7 +339,7 @@ int main() {
                     }
                 }
 
-				if (score >= current_level * 600) {                         //level up condition
+				if (score >= current_level * 1000) {                         //level up condition
                     current_level++;
                     if (current_level == 3) {
 						                      //boss level
