@@ -1,7 +1,8 @@
-﻿#include "raylib.h"
-#include <iostream>
-#include <cstdlib>  
-#include<fstream>
+﻿
+#include <iostream>    //for input output
+#include "raylib.h"              //for graphics
+#include <cstdlib>  //for rand() function
+#include<fstream>  //for file handling
  
 
 using namespace std;
@@ -43,7 +44,7 @@ Rectangle bossBullets[BOSSBMAX];                                 //boss fight bu
 bool bossBulletActive[BOSSBMAX] = { false };
 float bossBulletSpeed = 10;
 
-
+//game variables
 int score = 0;
 int lives = 3;                                          //player variables
 int current_level = 1;
